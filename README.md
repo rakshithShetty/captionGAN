@@ -1,5 +1,7 @@
 Source code for the paper "Speaking the Same Language: Matching Machine to Human Captions by Adversarial Training"
 #
+The starting point for the adversarial caption generator training is "train_adversarial_caption_gen_v2.py". 
+To train regular captioning models (using ML losss) start with "driver_theano.py"
 
 This is built  *Python+numpy+theano*.
 It's a large codebase containing the code to implement captioning frameworks used in the following papers:
@@ -14,10 +16,11 @@ Video captioning:
 # Instruction on using the code
 
 1. Make sure you have theano installed and working. As a quick check "import theano" should work without any errors on a python shell
-2. The code expects the data files to be in "data/<dataset_name>" directory. It needs a .json file containing all the training/validation/test samples and we need a .mat feature file containin the CNN features for each of the samples. Actual images are only needed for visualisation of results and are not needed during training.
-3. The data and some pre-trained models can be downloaded from the below links
-    data: https://drive.google.com/open?id=0B76QzqVJdOJ5VjlaR294SVV6Z00
-    pre-trained: https://drive.google.com/open?id=0B76QzqVJdOJ5TV9FMjhpVmlsTFE
+2. The code expects the data files to be in "data/<dataset_name>" directory. It needs a .json file containing all the training/validation/test samples and we need a .npy/.mat/.bin feature files containin the CNN features for each of the samples. Actual images are only needed for visualisation of results and are not needed during training.
+3. The data and some pre-trained models can be downloaded from the below links. This doesn't include image features. You can use any extracted features for this purpose. The pre-trained models use ResNet features extracted as in (https://github.com/akirafukui/vqa-mcb/tree/master/preprocess). Since the feature files are large, I have not uploaded them here.
+
+    Data: https://drive.google.com/open?id=0B76QzqVJdOJ5VjlaR294SVV6Z00
+    Pre-Trained: https://drive.google.com/open?id=0B76QzqVJdOJ5TV9FMjhpVmlsTFE
 
 # Example Usage
 
