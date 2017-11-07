@@ -1,0 +1,89 @@
+#! /usr/bin/perl -s
+
+use strict;
+use diagnostics;
+use vars qw($sort);
+
+$sort = "order" unless defined $sort;
+die unless $sort =~ /^(Bleu_[1234]|METEOR|ROUGE_L|CIDEr|name|order|user|date)$/;
+
+my %width = ("date"=>9, "user"=>9);
+
+my %r;
+
+my $i = 0;
+foreach my $f ( @ARGV ) {
+    open IN, $f;
+    my @aa = <IN>;
+    close IN;
+    chomp @aa;
+
+    my %h;
+
+    foreach my $a ( @aa ) {
+	# print "$a\n";
+
+	next unless $a =~ /^(Bleu_[1234]|METEOR|ROUGE_L|CIDEr): (.*)/;
+	my ($meas, $val) = ($1, $2);
+	#print "$meas = $val\n";
+	$h{$meas} = $val;
+    }
+
+    my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+       $atime,$mtime,$ctime,$blksize,$blocks) = stat($f);
+    $h{"user"} = getpwuid($uid);
+
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst)
+	= localtime($mtime);
+    $h{"date"} = sprintf "%02d-%02d-%02d", $year%100, $mon+1, $mday;
+
+    my $ff = $f;
+    $ff =~ s/\.result$//;
+    $h{"name"} = $ff;
+    $h{"order"} = -$i++;
+
+    $r{$ff} = { %h };
+}
+
+my $first = 1;
+
+my @s;
+
+if ($sort eq "date") {
+    @s = sort { $r{$b}{$sort} cmp $r{$a}{$sort} } (keys %r);
+
+} elsif ($sort eq "user") {
+    @s = sort { $r{$a}{$sort} cmp $r{$b}{$sort} } (keys %r);
+
+} else {
+    @s = sort { $r{$b}{$sort} <=> $r{$a}{$sort} } (keys %r);
+}
+
+
+$i = 0;
+foreach my $q ( @s ) {
+    my %h = %{$r{$q}};
+
+    if ($first) {
+	foreach my $k ( sort keys %h ) {
+	    next if $k eq "name" || $k eq "order";
+
+	    my $w = 7;
+	    $w = $width{$k} if defined $width{$k};
+	    print substr("$k        ", 0, $w+1);
+	}
+	print "\n";
+	$first = 0;
+    }
+
+    $i = 0;
+    foreach my $k ( sort keys %h ) {
+	next if $k eq "name" || $k eq "order";
+
+	my $w = 7;
+	$w = $width{$k} if defined $width{$k};
+	print substr("$h{$k}        ", 0, $w+1);
+    }
+    print "$q\n";
+}
+
