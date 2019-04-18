@@ -21,8 +21,18 @@ It's a large codebase containing the code to implement captioning frameworks use
 2. The code expects the data files to be in "data/<dataset_name>" directory. It needs a .json file containing all the training/validation/test samples and we need a .npy/.mat/.bin feature files containin the CNN features for each of the samples. Actual images are only needed for visualisation of results and are not needed during training.
 3. The data and some pre-trained models can be downloaded from the below links. This doesn't include image features. You can use any extracted features for this purpose. The pre-trained models use ResNet features extracted as in (https://github.com/akirafukui/vqa-mcb/tree/master/preprocess). Since the feature files are large, I have not uploaded them here.
 
-    Data: https://drive.google.com/open?id=0B76QzqVJdOJ5VjlaR294SVV6Z00
-    Pre-Trained: https://drive.google.com/open?id=0B76QzqVJdOJ5TV9FMjhpVmlsTFE
+    Data: [dataset.json](https://datasets.d2.mpi-inf.mpg.de/rakshith/caption_gan/data/dataset.json), [labels](https://datasets.d2.mpi-inf.mpg.de/rakshith/caption_gan/data/labels.txt)
+
+    Pre-Trained: [Baseline](https://datasets.d2.mpi-inf.mpg.de/rakshith/caption_gan/pretrained_models/model_checkpoint_coco_wks-12-46_r-dep3-frc80-resnet150mean_per9.32.p),  [GAN](https://datasets.d2.mpi-inf.mpg.de/rakshith/caption_gan/pretrained_models/advmodel_checkpoint_coco_wks-12-46_r-dep3-frc80-resnet-5samp-pretrainBOTH-miniBatchDiscr-GUMBHard0p5-smooth3-noMle-featMatch-randInp50d_55999_15.20_genacc.p)
+   
+    Features: [Faster-RCNN detection binary features](https://datasets.d2.mpi-inf.mpg.de/rakshith/caption_gan/features/fasterRcnn_clasDetFEat80.npy)
+    
+# Generated Captions (Karpathy splits)
+
+Baseline beamsearch(5):  [val set](https://datasets.d2.mpi-inf.mpg.de/rakshith/caption_gan/generated_captions/result_struct_baselineResNet-beamsearch-b5.json)  ,  [test set](https://datasets.d2.mpi-inf.mpg.de/rakshith/caption_gan/generated_captions/result_struct_minitest_baselineResNet-beamsearch-b5.json)
+
+Our GAN model (beam-5): [val set](https://datasets.d2.mpi-inf.mpg.de/rakshith/caption_gan/generated_captions/result_struct_MLE-20Wrd-Smth3-randInpFeatMatch-ResnetMean-56k-b5.json)  ,        [test set](https://datasets.d2.mpi-inf.mpg.de/rakshith/caption_gan/generated_captions/result_struct_minitest_MLE-20Wrd-Smth3-randInpFeatMatch-ResnetMean-56k-b5.json)
+
 
 # Example Usage
 
